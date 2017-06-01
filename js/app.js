@@ -70,6 +70,8 @@ button.addEventListener('click', () => {
         errorName.className = 'errorClass';
         errorEmail = document.createElement('p');
         errorEmail.className = 'errorClass';
+        errorPayment = document.createElement('p');
+        errorPayment.className = 'errorClass';
         errorCreditCard = document.createElement('p');
         errorCreditCard.className = 'errorClass';
         errorZipCode = document.createElement('p');
@@ -90,21 +92,29 @@ button.addEventListener('click', () => {
         if (title.value === 'other' && otherRole === '') {
             event.preventDefault();
         }
-        if (paymentType.value === 'credit-card' || paymentType.value === 'select-method') {
+        if (paymentType.value === 'credit-card' || paymentType.value === 'select-method' || payment.value === 'select_method') {
             
             if (document.getElementById('cc-num').value === '') {
                 errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number.';
                 $('label[for="cc-num"]').css('color', 'red');
+                document.getElementById('cc-num').style.borderColor = 'red';
                 event.preventDefault();
             }
             if (document.getElementById('zip').value === '') {
                 errorZipCode.textContent = 'Please make sure to add in your Zip Code.';
+                document.getElementById('zip').style.borderColor = 'red';
                 $('label[for="zip"]').css('color', 'red');
                 event.preventDefault();
             }
             if (document.getElementById('cvv').value === '') {
                 errorCvv.textContent = 'Please make sure to add in your CVV number.';
                 document.getElementById('cvv').style.borderColor = 'red';
+                $('label[for="cvv"]').css('color', 'red');
+                event.preventDefault();
+            }
+            if (payment.value === 'select_method') {
+                errorPayment.textContent = 'Please make sure to select a payment option.';
+                document.getElementById('payment').style.borderColor = 'red';
                 event.preventDefault();
             }
         }

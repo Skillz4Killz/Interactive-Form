@@ -4,13 +4,15 @@ const jobRole = document.getElementById('title');
 const otherRole = document.getElementById('other-title');
 const shirtDesign = document.getElementById('design');
 const shirtColor = document.getElementById('color');
-let totalCost;
+let totalCost, subTotal;
 let insertCost = '<p>Total Cost = ';
 const mainConf = document.getElementsByName('all');
-const activities = document.querySelectorAll('[type="checkbox"]');
 const paymentType = document.getElementById('payment');
 const button = document.getElementsByTagName('button')[0];
 const email = document.getElementById('mail');
+const creditCard = document.getElementById('credit-card');
+const paypal = document.getElementsByTagName('p')[0];
+const bitcoin = document.getElementsByTagName('p')[1];
 
 //Preparing Form on page load.
 name.focus();
@@ -42,28 +44,27 @@ shirtDesign.addEventListener('change', () => {
 })
 
 //Totaling Costs and scheduling properly.
-activities.addEventListener('change', () => {
-
-})
+// mainConf.click(() => {
+//     console.log('checked');
+// });
 
 //Payment selecting changing options per option.
 paymentType.addEventListener('change', () => {
     if (paymentType.value === 'bitcoin') {
-        document.getElementById('credit-card').style.display = 'none';
-        document.getElementsByTagName('p')[0].style.display = 'none';
-        document.getElementsByTagName('p')[1].style.display = '';        
+        creditCard.style.display = 'none';
+        paypal.style.display = 'none';
+        bitcoin.style.display = '';        
     } else if (paymentType.value === 'paypal') {
-        document.getElementById('credit-card').style.display = 'none';
-        document.getElementsByTagName('p')[0].style.display = '';
-        document.getElementsByTagName('p')[1].style.display = 'none';        
+        creditCard.style.display = 'none';
+        paypal.style.display = '';
+        bitcoin.style.display = 'none';        
 
     } else {
-        document.getElementById('credit-card').style.display = '';
-        document.getElementsByTagName('p')[0].style.display = 'none';
-        document.getElementsByTagName('p')[1].style.display = 'none';
+        creditCard.style.display = '';
+        paypal.style.display = 'none';
+        bitcoin.style.display = 'none';
     }
 })
-
 
 //Form Validation
 button.addEventListener('click', () => {

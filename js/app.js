@@ -42,10 +42,11 @@ shirtDesign.addEventListener('change', () => {
 })
 
 //Totaling Costs and scheduling properly.
-// activities.addEventListener('change', () => {
+activities.addEventListener('change', () => {
 
-// })
+})
 
+//Payment selecting changing options per option.
 paymentType.addEventListener('change', () => {
     if (paymentType.value === 'bitcoin') {
         document.getElementById('credit-card').style.display = 'none';
@@ -63,6 +64,8 @@ paymentType.addEventListener('change', () => {
     }
 })
 
+
+//Form Validation
 button.addEventListener('click', () => {
     if (name.value == '' || email.value === '' || otherRole === '' || paymentType.value === 'credit-card' || 
     paymentType.value === 'select-method') {
@@ -70,6 +73,10 @@ button.addEventListener('click', () => {
         errorName.className = 'errorClass';
         errorEmail = document.createElement('p');
         errorEmail.className = 'errorClass';
+        errorDesign = document.createElement('p');
+        errorDesign.className = 'errorClass';
+        errorColor = document.createElement('p');
+        errorColor.className = 'errorClass';
         errorPayment = document.createElement('p');
         errorPayment.className = 'errorClass';
         errorCreditCard = document.createElement('p');
@@ -92,29 +99,41 @@ button.addEventListener('click', () => {
         if (title.value === 'other' && otherRole === '') {
             event.preventDefault();
         }
+        if (document.getElementById('design').value === 'Select Theme') {
+            errorDesign.textContent = 'Please make sure to select a design type';
+            document.getElementById('design').style.borderColor = 'red';
+            $('#design').css('color', 'red');
+            document.getElementById('design').after(errorDesign);
+            event.preventDefault();
+            }
+
         if (paymentType.value === 'credit-card' || paymentType.value === 'select-method' || payment.value === 'select_method') {
             
-            if (document.getElementById('cc-num').value === '') {
-                errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number.';
+            if (document.getElementById('cc-num').value === '' || document.getElementById('cc-num').value.length < 13 || document.getElementById('cc-num').value.length > 16) {
+                errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
                 $('label[for="cc-num"]').css('color', 'red');
                 document.getElementById('cc-num').style.borderColor = 'red';
+                document.getElementById('payment').after(errorCreditCard);
                 event.preventDefault();
             }
-            if (document.getElementById('zip').value === '') {
-                errorZipCode.textContent = 'Please make sure to add in your Zip Code.';
+            if (document.getElementById('zip').value === '' || document.getElementById('zip').value.length != 5) {
+                errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
                 document.getElementById('zip').style.borderColor = 'red';
                 $('label[for="zip"]').css('color', 'red');
+                document.getElementById('payment').after(errorZipCode);
                 event.preventDefault();
             }
-            if (document.getElementById('cvv').value === '') {
-                errorCvv.textContent = 'Please make sure to add in your CVV number.';
+            if (document.getElementById('cvv').value === '' || document.getElementById('cvv').value.length != 3) {
+                errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
                 document.getElementById('cvv').style.borderColor = 'red';
                 $('label[for="cvv"]').css('color', 'red');
+                document.getElementById('payment').after(errorCvv);
                 event.preventDefault();
             }
             if (payment.value === 'select_method') {
                 errorPayment.textContent = 'Please make sure to select a payment option.';
                 document.getElementById('payment').style.borderColor = 'red';
+                document.getElementById('payment').after(errorPayment);
                 event.preventDefault();
             }
         }

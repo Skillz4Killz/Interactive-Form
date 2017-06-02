@@ -15,11 +15,30 @@ const node = document.getElementsByName('node')[0];
 const buildTools = document.getElementsByName('build-tools')[0];
 const npm = document.getElementsByName('npm')[0];
 const paymentType = document.getElementById('payment');
+const ccNum = document.getElementById('cc-num');
+const zipCode = document.getElementById('zip');
+const cvvNum = document.getElementById('cvv');
 const button = document.getElementsByTagName('button')[0];
 const email = document.getElementById('mail');
 const creditCard = document.getElementById('credit-card');
 const paypal = document.getElementsByTagName('p')[0];
 const bitcoin = document.getElementsByTagName('p')[1];
+const errorName = document.createElement('p');
+errorName.className = 'errorClass';
+const errorEmail = document.createElement('p');
+errorEmail.className = 'errorClass';
+const errorDesign = document.createElement('p');
+errorDesign.className = 'errorClass';
+const errorActivities = document.createElement('p');
+errorActivities.className = 'errorClass';
+const errorPayment = document.createElement('p');
+errorPayment.className = 'errorClass';
+const errorCreditCard = document.createElement('p');
+errorCreditCard.className = 'errorClass';
+const errorZipCode = document.createElement('p');
+errorZipCode.className = 'errorClass';
+const errorCvv = document.createElement('p');
+errorCvv.className = 'errorClass';
 
 //Preparing Form on page load.s
 name.focus();
@@ -54,32 +73,33 @@ shirtDesign.addEventListener('change', () => {
  totalCost = document.createElement('p');
     totalCost.className = 'totalCost';
     npm.parentElement.after(totalCost);
+let numOfActivities = 0;
 
 function mainActivity () {
     mainConf.addEventListener('change', () => {
         if (mainConf.checked) {
             subTotal = subTotal + 200;
             totalCost.textContent = insertCost + subTotal;
-            console.log(subTotal);
-            
+            numOfActivities++;      
         } else {
             subTotal = subTotal - 200;
-            console.log(subTotal);
             totalCost.textContent = insertCost + subTotal;
+            numOfActivities++;
         }
     })
 }
+
 
 function activities (x) {
     x.addEventListener('change', () => {
         if (x.checked) {
             subTotal = subTotal + 100;
             totalCost.textContent = insertCost + subTotal;
-            console.log(subTotal);
+            numOfActivities++;
         } else {
             subTotal = subTotal - 100;
-            console.log(subTotal);
             totalCost.textContent = insertCost + subTotal;
+            numOfActivities++;
         }
         if (jsFrameworks.checked) {
             express.parentElement.style.display = 'none';
@@ -123,10 +143,6 @@ activities(node);
 activities(buildTools);
 activities(npm);
 
-
-
-
-
 //Payment selecting changing options per option.
 paymentType.addEventListener('change', () => {
     if (paymentType.value === 'bitcoin') {
@@ -144,36 +160,27 @@ paymentType.addEventListener('change', () => {
         bitcoin.style.display = 'none';
     }
 })
-
+function removePaymentErrors () {
+    errorPayment.remove();
+    errorCreditCard.remove();
+    errorZipCode.remove();
+    errorCvv.remove();
+}
 //Form Validation
 button.addEventListener('click', () => {
     if (name.value == '' || email.value === '' || otherRole === '' || paymentType.value === 'credit-card' || 
-    paymentType.value === 'select-method') {
-        errorName = document.createElement('p');
-        errorName.className = 'errorClass';
-        errorEmail = document.createElement('p');
-        errorEmail.className = 'errorClass';
-        errorDesign = document.createElement('p');
-        errorDesign.className = 'errorClass';
-        errorColor = document.createElement('p');
-        errorColor.className = 'errorClass';
-        errorPayment = document.createElement('p');
-        errorPayment.className = 'errorClass';
-        errorCreditCard = document.createElement('p');
-        errorCreditCard.className = 'errorClass';
-        errorZipCode = document.createElement('p');
-        errorZipCode.className = 'errorClass';
-        errorCvv = document.createElement('p');
-        errorCvv.className = 'errorClass';
+    paymentType.value === 'select-method' || numOfActivities === 0) {
         if (name.value == '' || email.value === '' ) {
             event.preventDefault();
             if (name.value == '') {
                 errorName.textContent = 'Please make sure to add in your name.';
                 document.getElementById('name').after(errorName);
+                document.getElementById('name').style.borderColor = 'red';
             } 
             if (email.value == '') {
                 errorEmail.textContent = 'Please make sure to add in your email address.';
                 document.getElementById('mail').after(errorEmail);
+                document.getElementById('mail').style.borderColor = 'red';
             } 
     }
         if (title.value === 'other' && otherRole === '') {
@@ -185,7 +192,14 @@ button.addEventListener('click', () => {
             $('#design').css('color', 'red');
             document.getElementById('design').after(errorDesign);
             event.preventDefault();
-            }
+        }
+        
+        if (numOfActivities === 0) {
+            errorActivities.textContent = 'Please make sure to select atleast one activity.';
+                $('.activities').css('color', 'red');
+                $('.activities').after(errorActivities);
+                event.preventDefault();
+        }
 
         if (paymentType.value === 'credit-card' || paymentType.value === 'select-method' || payment.value === 'select_method') {
             
@@ -219,10 +233,128 @@ button.addEventListener('click', () => {
         }
         
     }
-    while (email.value.search(@) === -1) {
-        
-    }
     $('.errorClass').css('color', 'red');
-
-    
 })
+
+
+name.addEventListener('keypress', () => {
+    if (name.value != '') {
+        document.getElementById('name').style.borderColor = '';
+        errorName.remove();  
+    }
+})
+
+email.addEventListener('keypress', () => {
+    let tempEmail = email.value;
+    if (tempEmail.search('@') === -1) {
+        errorEmail.textContent = 'Please make sure that your email is formatted correctly.';
+        document.getElementById('mail').style.borderColor = 'red';
+        document.getElementById('mail').after(errorEmail);   
+    } else {
+        document.getElementById('mail').style.borderColor = '';
+        errorEmail.remove(); 
+    }
+})
+
+shirtDesign.addEventListener('change', () => {
+    if (shirtDesign.value != '') {
+        document.getElementById('design').style.borderColor = '';
+        errorDesign.remove();  
+    }
+})
+
+mainConf.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+jsFrameworks.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+jsLibs.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+express.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+node.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+buildTools.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+npm.addEventListener('change', () => {
+    if (numOfActivities > 0) {
+        $('.activities').css('color', '');
+        errorActivities.remove();  
+    }
+})
+paymentType.addEventListener('change', () => {
+    if (paymentType.value != 'select_method') {
+        document.getElementById('payment').style.borderColor = '';
+        removePaymentErrors();
+    } else if (paymentType.value != 'cc-num') {
+        removePaymentErrors();
+    } else if (paymentType.value != 'paypal') {
+        document.getElementById('payment').style.borderColor = '';
+        removePaymentErrors();
+    } else {
+        document.getElementById('payment').style.borderColor = '';
+        removePaymentErrors();
+    }
+})
+ccNum.addEventListener('change', () => {
+    if (ccNum.value.length >= 13 && ccNum.value.length <= 16) {
+        document.getElementById('cc-num').style.borderColor = '';
+        $('label[for="cc-num"]').css('color', '');
+        errorCreditCard.remove();
+    } else {
+        errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
+        $('label[for="cc-num"]').css('color', 'red');
+        document.getElementById('cc-num').style.borderColor = 'red';
+        document.getElementById('payment').after(errorCreditCard);
+    }
+})
+zipCode.addEventListener('change', () => {
+    if (zipCode.value.length == 5) {
+        document.getElementById('zip').style.borderColor = '';
+        $('label[for="zip"]').css('color', '');
+        errorZipCode.remove();
+    } else {
+        errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
+        document.getElementById('zip').style.borderColor = 'red';
+        $('label[for="zip"]').css('color', 'red');
+        document.getElementById('payment').after(errorZipCode);
+
+
+    }
+})
+cvvNum.addEventListener('change', () => {
+    if (cvvNum.value.length == 3) {
+        document.getElementById('cvv').style.borderColor = '';
+        $('label[for="cvv"]').css('color', '');
+        errorCvv.remove();
+    } else {
+        errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
+        document.getElementById('cvv').style.borderColor = 'red';
+        $('label[for="cvv"]').css('color', 'red');
+        document.getElementById('payment').after(errorCvv);
+    }
+})
+

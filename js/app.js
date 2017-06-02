@@ -1,6 +1,6 @@
 //declare all global variables
 const name = document.getElementById('name');
-const emailInput = document.getElementById('mail');
+const email = document.getElementById('mail');
 const jobRole = document.getElementById('title');
 const otherRole = document.getElementById('other-title');
 const shirtDesign = document.getElementById('design');
@@ -22,7 +22,6 @@ const ccNum = document.getElementById('cc-num');
 const zipCode = document.getElementById('zip');
 const cvvNum = document.getElementById('cvv');
 const button = document.getElementsByTagName('button')[0];
-const email = document.getElementById('mail');
 const creditCard = document.getElementById('credit-card');
 const paypal = document.getElementsByTagName('p')[0];
 const bitcoin = document.getElementsByTagName('p')[1];
@@ -191,8 +190,8 @@ button.addEventListener('click', () => {
         if (email.value == '') {
             event.preventDefault();
             errorEmail.textContent = 'Please make sure to add in your email address.';
-            emailInput.after(errorEmail);
-            emailInput.style.borderColor = 'red';
+            email.after(errorEmail);
+            email.style.borderColor = 'red';
         } 
 // if jobRole is other and the textField is blank stop the submit and throw errors on form.
         if (title.value === 'other' && otherRole === '') {
@@ -202,49 +201,49 @@ button.addEventListener('click', () => {
             otherRole.style.borderColor = 'red';
         }
 // if a design is not selected stop the submit and throw errors on form.
-        if (document.getElementById('design').value === 'Select Theme') {
+        if (shirtDesign.value === 'Select Theme') {
             errorDesign.textContent = 'Please make sure to select a design type';
-            document.getElementById('design').style.borderColor = 'red';
+            shirtDesign.style.borderColor = 'red';
             $('#design').css('color', 'red');
-            document.getElementById('design').after(errorDesign);
+            shirtDesign.after(errorDesign);
             event.preventDefault();
         }
 // if there are 0 activities checked stop the submit and throw errors on form.
         if (numOfActivities === 0) {
             errorActivities.textContent = 'Please make sure to select atleast one activity.';
-                $('.activities').css('color', 'red');
-                $('.activities').after(errorActivities);
-                event.preventDefault();
+            $('.activities').css('color', 'red');
+            $('.activities').after(errorActivities);
+            event.preventDefault();
         }
 // if CreditCard# is blank or not 13-16 digits stop submit and throw errors       
-        if (document.getElementById('cc-num').value === '' || document.getElementById('cc-num').value.length < 13 || document.getElementById('cc-num').value.length > 16) {
+        if (ccNum.value === '' || ccNum.value.length < 13 || ccNum.value.length > 16) {
             errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
             $('label[for="cc-num"]').css('color', 'red');
-            document.getElementById('cc-num').style.borderColor = 'red';
-            document.getElementById('payment').after(errorCreditCard);
+            ccNum.style.borderColor = 'red';
+            paymentType.after(errorCreditCard);
             event.preventDefault();
         }
 // if ZipCode is blank or not 5 digits stop submit and throw errors
-        if (document.getElementById('zip').value === '' || document.getElementById('zip').value.length != 5) {
+        if (zipCode.value === '' || zipCode.value.length != 5) {
             errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
-            document.getElementById('zip').style.borderColor = 'red';
+            zipCode.style.borderColor = 'red';
             $('label[for="zip"]').css('color', 'red');
-            document.getElementById('payment').after(errorZipCode);
+            paymentType.after(errorZipCode);
             event.preventDefault();
         }
 // if CVV is blank or not 3 digits stop submit and throw errors
-        if (document.getElementById('cvv').value === '' || document.getElementById('cvv').value.length != 3) {
+        if (cvvNum.value === '' || cvvNum.value.length != 3) {
             errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
-            document.getElementById('cvv').style.borderColor = 'red';
+            cvvNum.style.borderColor = 'red';
             $('label[for="cvv"]').css('color', 'red');
-            document.getElementById('payment').after(errorCvv);
+            paymentType.after(errorCvv);
             event.preventDefault();
         }
 // if Payment type is not selected stop submit and throw errors
         if (payment.value === 'select_method') {
             errorPayment.textContent = 'Please make sure to select a payment option.';
-            document.getElementById('payment').style.borderColor = 'red';
-            document.getElementById('payment').after(errorPayment);
+            paymentType.style.borderColor = 'red';
+            paymentType.after(errorPayment);
             event.preventDefault();
         }
     }
@@ -255,7 +254,7 @@ button.addEventListener('click', () => {
 //When name has an error and is now fixed remove errors
 name.addEventListener('keypress', () => {
     if (name.value != '') {
-        document.getElementById('name').style.borderColor = '';
+        name.style.borderColor = '';
         errorName.remove();  
     }
 })
@@ -263,12 +262,12 @@ name.addEventListener('keypress', () => {
 //When email has an error and is now fixed remove errors
 email.addEventListener('keypress', () => {
     let tempEmail = email.value;
-    if (tempEmail.search('@') === -1) {
+    if (tempEmail.search('@') === -1 || tempEmail.search('@') === -1 ) {
         errorEmail.textContent = 'Please make sure that your email is formatted correctly.';
-        document.getElementById('mail').style.borderColor = 'red';
-        document.getElementById('mail').after(errorEmail);   
+        email.style.borderColor = 'red';
+        email.after(errorEmail);   
     } else {
-        document.getElementById('mail').style.borderColor = '';
+        email.style.borderColor = '';
         errorEmail.remove(); 
     }
 })
@@ -276,7 +275,7 @@ email.addEventListener('keypress', () => {
 //When Design has an error and is now fixed remove errors
 shirtDesign.addEventListener('change', () => {
     if (shirtDesign.value != '') {
-        document.getElementById('design').style.borderColor = '';
+        shirtDesign.style.borderColor = '';
         errorDesign.remove();  
     }
 })
@@ -333,56 +332,54 @@ npm.addEventListener('change', () => {
 //When paymentType has errors and then changed to a different type either paypal or bitcoin remove errors.
 paymentType.addEventListener('change', () => {
     if (paymentType.value != 'select_method') {
-        document.getElementById('payment').style.borderColor = '';
+        paymentType.style.borderColor = '';
         removePaymentErrors();
     } else if (paymentType.value != 'cc-num') {
         removePaymentErrors();
     } else if (paymentType.value != 'paypal') {
-        document.getElementById('payment').style.borderColor = '';
+        paymentType.style.borderColor = '';
         removePaymentErrors();
     } else {
-        document.getElementById('payment').style.borderColor = '';
+        paymentType.style.borderColor = '';
         removePaymentErrors();
     }
 })
 //When ccNum is not correct throw error and if it is correct remove errors.
 ccNum.addEventListener('change', () => {
     if (ccNum.value.length >= 13 && ccNum.value.length <= 16) {
-        document.getElementById('cc-num').style.borderColor = '';
+        ccNum.style.borderColor = '';
         $('label[for="cc-num"]').css('color', '');
         errorCreditCard.remove();
     } else {
         errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
         $('label[for="cc-num"]').css('color', 'red');
-        document.getElementById('cc-num').style.borderColor = 'red';
-        document.getElementById('payment').after(errorCreditCard);
+        ccNum.style.borderColor = 'red';
+        paymentType.after(errorCreditCard);
     }
 })
 //When zipcode is not correct throw error and if it is correct remove errors.
 zipCode.addEventListener('change', () => {
     if (zipCode.value.length == 5) {
-        document.getElementById('zip').style.borderColor = '';
+        zipCode.style.borderColor = '';
         $('label[for="zip"]').css('color', '');
         errorZipCode.remove();
     } else {
         errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
-        document.getElementById('zip').style.borderColor = 'red';
+        zipCode.style.borderColor = 'red';
         $('label[for="zip"]').css('color', 'red');
         document.getElementById('payment').after(errorZipCode);
-
-
     }
 })
 //When CVV is not correct throw error and if it is correct remove errors.
 cvvNum.addEventListener('change', () => {
     if (cvvNum.value.length == 3) {
-        document.getElementById('cvv').style.borderColor = '';
+        cvvNum.style.borderColor = '';
         $('label[for="cvv"]').css('color', '');
         errorCvv.remove();
     } else {
         errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
-        document.getElementById('cvv').style.borderColor = 'red';
+        cvvNum.style.borderColor = 'red';
         $('label[for="cvv"]').css('color', 'red');
-        document.getElementById('payment').after(errorCvv);
+        paymentType.after(errorCvv);
     }
 })

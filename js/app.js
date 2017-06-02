@@ -4,9 +4,16 @@ const jobRole = document.getElementById('title');
 const otherRole = document.getElementById('other-title');
 const shirtDesign = document.getElementById('design');
 const shirtColor = document.getElementById('color');
-let totalCost, subTotal;
-let insertCost = '<p>Total Cost = ';
-const mainConf = document.getElementsByName('all');
+let subTotal = 0;
+let insertCost = 'Total Cost = ';
+const allActivities = document.getElementsByClassName('activities');
+const mainConf = document.getElementsByName('all')[0];
+const jsFrameworks = document.getElementsByName('js-frameworks')[0];
+const jsLibs = document.getElementsByName('js-libs')[0];
+const express = document.getElementsByName('express')[0];
+const node = document.getElementsByName('node')[0];
+const buildTools = document.getElementsByName('build-tools')[0];
+const npm = document.getElementsByName('npm')[0];
 const paymentType = document.getElementById('payment');
 const button = document.getElementsByTagName('button')[0];
 const email = document.getElementById('mail');
@@ -14,7 +21,7 @@ const creditCard = document.getElementById('credit-card');
 const paypal = document.getElementsByTagName('p')[0];
 const bitcoin = document.getElementsByTagName('p')[1];
 
-//Preparing Form on page load.
+//Preparing Form on page load.s
 name.focus();
 otherRole.style.display = 'none';
 document.getElementById('colors-js-puns').style.display = 'none';
@@ -44,9 +51,81 @@ shirtDesign.addEventListener('change', () => {
 })
 
 //Totaling Costs and scheduling properly.
-// mainConf.click(() => {
-//     console.log('checked');
-// });
+ totalCost = document.createElement('p');
+    totalCost.className = 'totalCost';
+    npm.parentElement.after(totalCost);
+
+function mainActivity () {
+    mainConf.addEventListener('change', () => {
+        if (mainConf.checked) {
+            subTotal = subTotal + 200;
+            totalCost.textContent = insertCost + subTotal;
+            console.log(subTotal);
+            
+        } else {
+            subTotal = subTotal - 200;
+            console.log(subTotal);
+            totalCost.textContent = insertCost + subTotal;
+        }
+    })
+}
+
+function activities (x) {
+    x.addEventListener('change', () => {
+        if (x.checked) {
+            subTotal = subTotal + 100;
+            totalCost.textContent = insertCost + subTotal;
+            console.log(subTotal);
+        } else {
+            subTotal = subTotal - 100;
+            console.log(subTotal);
+            totalCost.textContent = insertCost + subTotal;
+        }
+        if (jsFrameworks.checked) {
+            express.parentElement.style.display = 'none';
+            buildTools.parentElement.style.display = 'none';
+        } else if (express.checked) {
+            jsFrameworks.parentElement.style.display = 'none';
+            buildTools.parentElement.style.display = 'none';
+        } else if (buildTools.checked) {
+            jsFrameworks.parentElement.style.display = 'none';
+            express.parentElement.style.display = 'none';
+        } else {
+            buildTools.parentElement.style.display = '';
+            jsFrameworks.parentElement.style.display = '';
+            express.parentElement.style.display = '';
+        }
+
+        if (jsLibs.checked) {
+            node.parentElement.style.display = 'none';
+            npm.parentElement.style.display = 'none';
+        } else if (node.checked) {
+            jsLibs.parentElement.style.display = 'none';
+            npm.parentElement.style.display = 'none';
+        } else if (npm.checked) {
+            jsLibs.parentElement.style.display = 'none';
+            node.parentElement.style.display = 'none';
+        } else {
+            npm.parentElement.style.display = '';
+            jsLibs.parentElement.style.display = '';
+            node.parentElement.style.display = '';
+        }
+        
+    })
+    
+}
+
+mainActivity(mainConf);
+activities(jsFrameworks);
+activities(jsLibs);
+activities(express);
+activities(node);
+activities(buildTools);
+activities(npm);
+
+
+
+
 
 //Payment selecting changing options per option.
 paymentType.addEventListener('change', () => {
@@ -138,6 +217,9 @@ button.addEventListener('click', () => {
                 event.preventDefault();
             }
         }
+        
+    }
+    while (email.value.search(@) === -1) {
         
     }
     $('.errorClass').css('color', 'red');

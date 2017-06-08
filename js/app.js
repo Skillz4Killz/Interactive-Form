@@ -215,7 +215,7 @@ button.addEventListener('click', () => {
             $('.activities').after(errorActivities);
             event.preventDefault();
         }
-        if (paymentType.value === 'credit card') {
+        if (paymentType.value === 'credit card' || paymentType.value === 'select_method') {
 // if CreditCard# is blank or not 13-16 digits stop submit and throw errors       
             if (ccNum.value === '' || ccNum.value.length < 13 || ccNum.value.length > 16) {
                 errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';

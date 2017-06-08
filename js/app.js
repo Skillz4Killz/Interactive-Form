@@ -178,7 +178,7 @@ function removePaymentErrors () {
 //Form Validation placed on the submit button.
 button.addEventListener('click', () => {
 // if any blank inputs run the code
-    if (name.value == '' || email.value === '' || otherRole === '' || paymentType.value === 'credit-card' || 
+    if (name.value == '' || email.value === '' || jobRole.value === 'other' || paymentType.value === 'credit-card' || 
     paymentType.value === 'select-method' || numOfActivities === 0) {
 // if blank name or email run stop the submit and throw errors on form.
         if (name.value == '') {
@@ -194,12 +194,12 @@ button.addEventListener('click', () => {
             email.style.borderColor = 'red';
         } 
 // if jobRole is other and the textField is blank stop the submit and throw errors on form.
-        if (title.value === 'other' && otherRole === '') {
-            event.preventDefault();
-            errorOtherRole.textContent = 'Please make sure to add in your role.'
-            otherRole.after(errorOtherRole);
-            otherRole.style.borderColor = 'red';
-        }
+    if (jobRole.value === 'other' && otherRole.value === '') {
+        errorOtherRole.textContent = 'Please make sure to add in your role.'
+        otherRole.after(errorOtherRole);
+        otherRole.style.borderColor = 'red';
+        event.preventDefault();
+    } 
 // if a design is not selected stop the submit and throw errors on form.
         if (shirtDesign.value === 'Select Theme') {
             errorDesign.textContent = 'Please make sure to select a design type';
@@ -259,19 +259,35 @@ name.addEventListener('keypress', () => {
     }
 })
 
-//When email has an error and is now fixed remove errors
-email.addEventListener('keypress', () => {
-    let tempEmail = email.value;
-    if (tempEmail.search('@') === -1 || tempEmail.search('@') === -1 ) {
+//ceheck for whether email is validated or not then throw an error or clear the error.
+email.addEventListener('change', () => {
+   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)) {
+    email.style.borderColor = '';
+    errorEmail.remove();  
+    return (true)  
+  } else {
         errorEmail.textContent = 'Please make sure that your email is formatted correctly.';
         email.style.borderColor = 'red';
-        email.after(errorEmail);   
-    } else {
-        email.style.borderColor = '';
-        errorEmail.remove(); 
+        email.after(errorEmail);
+        return (false)  
     }
 })
 
+//check for whether other role is selected help understand the value must be filled by throwing some errors.
+// jobRole.addEventListener('change', () => {
+//     if (jobRole.value === 'other' && otherRole.value === '') {
+//         errorOtherRole.textContent = 'Please make sure to add in your role.'
+//         otherRole.after(errorOtherRole);
+//         otherRole.style.borderColor = 'red';
+//     } 
+// })
+//once other role text has a value remove the errors
+otherRole.addEventListener('change', () => {
+    if (otherRole.value != '') {
+    errorOtherRole.remove();
+    otherRole.style.borderColor = '';  
+    }
+})
 //When Design has an error and is now fixed remove errors
 shirtDesign.addEventListener('change', () => {
     if (shirtDesign.value != '') {

@@ -215,32 +215,34 @@ button.addEventListener('click', () => {
             $('.activities').after(errorActivities);
             event.preventDefault();
         }
+        if (paymentType.value === 'credit card') {
 // if CreditCard# is blank or not 13-16 digits stop submit and throw errors       
-        if (ccNum.value === '' || ccNum.value.length < 13 || ccNum.value.length > 16) {
-            errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
-            $('label[for="cc-num"]').css('color', 'red');
-            ccNum.style.borderColor = 'red';
-            paymentType.after(errorCreditCard);
-            event.preventDefault();
-        }
+            if (ccNum.value === '' || ccNum.value.length < 13 || ccNum.value.length > 16) {
+                errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
+                $('label[for="cc-num"]').css('color', 'red');
+                ccNum.style.borderColor = 'red';
+                paymentType.after(errorCreditCard);
+                event.preventDefault();
+            }
 // if ZipCode is blank or not 5 digits stop submit and throw errors
-        if (zipCode.value === '' || zipCode.value.length != 5) {
-            errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
-            zipCode.style.borderColor = 'red';
-            $('label[for="zip"]').css('color', 'red');
-            paymentType.after(errorZipCode);
-            event.preventDefault();
-        }
+            if (zipCode.value === '' || zipCode.value.length != 5) {
+                errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
+                zipCode.style.borderColor = 'red';
+                $('label[for="zip"]').css('color', 'red');
+                paymentType.after(errorZipCode);
+                event.preventDefault();
+            }
 // if CVV is blank or not 3 digits stop submit and throw errors
-        if (cvvNum.value === '' || cvvNum.value.length != 3) {
-            errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
-            cvvNum.style.borderColor = 'red';
-            $('label[for="cvv"]').css('color', 'red');
-            paymentType.after(errorCvv);
-            event.preventDefault();
+            if (cvvNum.value === '' || cvvNum.value.length != 3) {
+                errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
+                cvvNum.style.borderColor = 'red';
+                $('label[for="cvv"]').css('color', 'red');
+                paymentType.after(errorCvv);
+                event.preventDefault();
+            }
         }
 // if Payment type is not selected stop submit and throw errors
-        if (payment.value === 'select_method') {
+        if (paymentType.value === 'select_method') {
             errorPayment.textContent = 'Please make sure to select a payment option.';
             paymentType.style.borderColor = 'red';
             paymentType.after(errorPayment);

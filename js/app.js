@@ -253,12 +253,21 @@ button.addEventListener('click', () => {
     $('.errorClass').css('color', 'red');
 })
 
+function hasWhiteSpace(name) {
+  return name.indexOf(' ') >= 0;
+}
 //When name has an error and is now fixed remove errors
 name.addEventListener('keypress', () => {
     if (name.value != '') {
         name.style.borderColor = '';
         errorName.remove();  
     }
+})
+email.addEventListener('keypress', () => {
+    errorEmail.textContent = 'Please make sure that your email is complete.';
+    email.style.borderColor = 'red';
+    errorEmail.style.color = 'red';
+    email.after(errorEmail);
 })
 
 //ceheck for whether email is validated or not then throw an error or clear the error.

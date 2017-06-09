@@ -263,6 +263,7 @@ name.addEventListener('keypress', () => {
         errorName.remove();  
     }
 })
+//error to display as soon as something is typed so email isnt complete
 email.addEventListener('keypress', () => {
     errorEmail.textContent = 'Please make sure that your email is complete.';
     email.style.borderColor = 'red';
@@ -283,15 +284,6 @@ email.addEventListener('change', () => {
         return (false)  
     }
 })
-
-//check for whether other role is selected help understand the value must be filled by throwing some errors.
-// jobRole.addEventListener('change', () => {
-//     if (jobRole.value === 'other' && otherRole.value === '') {
-//         errorOtherRole.textContent = 'Please make sure to add in your role.'
-//         otherRole.after(errorOtherRole);
-//         otherRole.style.borderColor = 'red';
-//     } 
-// })
 //once other role text has a value remove the errors
 otherRole.addEventListener('change', () => {
     if (otherRole.value != '') {

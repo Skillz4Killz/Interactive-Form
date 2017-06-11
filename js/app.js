@@ -110,33 +110,28 @@ function activities (x) {
         }
 // hide all conferences that overlap on time.
         if (jsFrameworks.checked) {
-            express.parentElement.style.display = 'none';
-            buildTools.parentElement.style.display = 'none';
-        } else if (express.checked) {
-            jsFrameworks.parentElement.style.display = 'none';
-            buildTools.parentElement.style.display = 'none';
-        } else if (buildTools.checked) {
-            jsFrameworks.parentElement.style.display = 'none';
-            express.parentElement.style.display = 'none';
+            express.disabled = true;
         } else {
-            buildTools.parentElement.style.display = '';
-            jsFrameworks.parentElement.style.display = '';
-            express.parentElement.style.display = '';
+            express.disabled = false;
         }
         if (jsLibs.checked) {
-            node.parentElement.style.display = 'none';
-            npm.parentElement.style.display = 'none';
-        } else if (node.checked) {
-            jsLibs.parentElement.style.display = 'none';
-            npm.parentElement.style.display = 'none';
-        } else if (npm.checked) {
-            jsLibs.parentElement.style.display = 'none';
-            node.parentElement.style.display = 'none';
+            node.disabled = true;
         } else {
-            npm.parentElement.style.display = '';
-            jsLibs.parentElement.style.display = '';
-            node.parentElement.style.display = '';
-        } 
+            node.disabled = false;
+        } if (express.checked) {
+            jsFrameworks.disabled = true;
+        } else {
+            jsFrameworks.disabled = false;
+        } if (node.checked) {
+            jsLibs.disabled = true;
+        } else {
+            jsLibs.disabled = false;
+        } if (express.checked) {
+            jsFrameworks.disabled = true;
+        } else {
+            jsFrameworks.disabled = false;
+        }
+        
     })
 }
 
@@ -365,7 +360,7 @@ paymentType.addEventListener('change', () => {
 })
 //When ccNum is not correct throw error and if it is correct remove errors.
 ccNum.addEventListener('change', () => {
-    if (ccNum.value.length >= 13 && ccNum.value.length <= 16) {
+    if (ccNum.value.length >= 13 && ccNum.value.length <= 16 && isNaN(ccNum.value) == false) {
         ccNum.style.borderColor = '';
         $('label[for="cc-num"]').css('color', '');
         errorCreditCard.remove();
@@ -378,7 +373,7 @@ ccNum.addEventListener('change', () => {
 })
 //When zipcode is not correct throw error and if it is correct remove errors.
 zipCode.addEventListener('change', () => {
-    if (zipCode.value.length == 5) {
+    if (zipCode.value.length == 5 && isNaN(zipCode.value) == false) {
         zipCode.style.borderColor = '';
         $('label[for="zip"]').css('color', '');
         errorZipCode.remove();
@@ -391,7 +386,7 @@ zipCode.addEventListener('change', () => {
 })
 //When CVV is not correct throw error and if it is correct remove errors.
 cvvNum.addEventListener('change', () => {
-    if (cvvNum.value.length == 3) {
+    if (cvvNum.value.length == 3 && isNaN(cvvNum.value) == false) {
         cvvNum.style.borderColor = '';
         $('label[for="cvv"]').css('color', '');
         errorCvv.remove();

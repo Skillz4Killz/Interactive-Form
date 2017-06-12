@@ -178,8 +178,8 @@ function removePaymentErrors () {
 //Form Validation placed on the submit button.
 button.addEventListener('click', () => {
 // if any blank inputs run the code
-    if (name.value == '' || email.value === '' || otherRole === '' || paymentType.value === 'credit-card' || 
-    paymentType.value === 'select-method' || numOfActivities === 0) {
+    if (name.value == '' || email.value === '' || otherRole === '' || paymentType.value === 'credit card' || 
+    paymentType.value === 'select_method' || numOfActivities === 0) {
 // if blank name or email run stop the submit and throw errors on form.
         if (name.value == '') {
             event.preventDefault();

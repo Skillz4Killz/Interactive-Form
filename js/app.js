@@ -109,33 +109,28 @@ function activities (x) {
         }
 // hide all conferences that overlap on time.
         if (jsFrameworks.checked) {
-            express.parentElement.style.display = 'none';
-            buildTools.parentElement.style.display = 'none';
-        } else if (express.checked) {
-            jsFrameworks.parentElement.style.display = 'none';
-            buildTools.parentElement.style.display = 'none';
-        } else if (buildTools.checked) {
-            jsFrameworks.parentElement.style.display = 'none';
-            express.parentElement.style.display = 'none';
+            express.disabled = true;
         } else {
-            buildTools.parentElement.style.display = '';
-            jsFrameworks.parentElement.style.display = '';
-            express.parentElement.style.display = '';
+            express.disabled = false;
         }
         if (jsLibs.checked) {
-            node.parentElement.style.display = 'none';
-            npm.parentElement.style.display = 'none';
-        } else if (node.checked) {
-            jsLibs.parentElement.style.display = 'none';
-            npm.parentElement.style.display = 'none';
-        } else if (npm.checked) {
-            jsLibs.parentElement.style.display = 'none';
-            node.parentElement.style.display = 'none';
+            node.disabled = true;
         } else {
-            npm.parentElement.style.display = '';
-            jsLibs.parentElement.style.display = '';
-            node.parentElement.style.display = '';
-        } 
+            node.disabled = false;
+        } if (express.checked) {
+            jsFrameworks.disabled = true;
+        } else {
+            jsFrameworks.disabled = false;
+        } if (node.checked) {
+            jsLibs.disabled = true;
+        } else {
+            jsLibs.disabled = false;
+        } if (express.checked) {
+            jsFrameworks.disabled = true;
+        } else {
+            jsFrameworks.disabled = false;
+        }
+        
     })
 }
 
@@ -179,6 +174,7 @@ button.addEventListener('click', () => {
 // if any blank inputs run the code
     if (name.value == '' || email.value === '' || otherRole === '' || paymentType.value === 'credit card' || 
     paymentType.value === 'select_method' || numOfActivities === 0) {
+
 // if blank name or email run stop the submit and throw errors on form.
         if (name.value == '') {
             event.preventDefault();
@@ -193,12 +189,12 @@ button.addEventListener('click', () => {
             email.style.borderColor = 'red';
         } 
 // if jobRole is other and the textField is blank stop the submit and throw errors on form.
-        if (title.value === 'other' && otherRole === '') {
-            event.preventDefault();
-            errorOtherRole.textContent = 'Please make sure to add in your role.'
-            otherRole.after(errorOtherRole);
-            otherRole.style.borderColor = 'red';
-        }
+    if (jobRole.value === 'other' && otherRole.value === '') {
+        errorOtherRole.textContent = 'Please make sure to add in your role.'
+        otherRole.after(errorOtherRole);
+        otherRole.style.borderColor = 'red';
+        event.preventDefault();
+    } 
 // if a design is not selected stop the submit and throw errors on form.
         if (shirtDesign.value === 'Select Theme') {
             errorDesign.textContent = 'Please make sure to select a design type';
@@ -214,32 +210,34 @@ button.addEventListener('click', () => {
             $('.activities').after(errorActivities);
             event.preventDefault();
         }
+        if (paymentType.value === 'credit card' || paymentType.value === 'select_method') {
 // if CreditCard# is blank or not 13-16 digits stop submit and throw errors       
-        if (ccNum.value === '' || ccNum.value.length < 13 || ccNum.value.length > 16) {
-            errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
-            $('label[for="cc-num"]').css('color', 'red');
-            ccNum.style.borderColor = 'red';
-            paymentType.after(errorCreditCard);
-            event.preventDefault();
-        }
+            if (ccNum.value === '' || ccNum.value.length < 13 || ccNum.value.length > 16) {
+                errorCreditCard.textContent = 'Please make sure to add in your Credit Card Number containing 13-16 digits.';
+                $('label[for="cc-num"]').css('color', 'red');
+                ccNum.style.borderColor = 'red';
+                paymentType.after(errorCreditCard);
+                event.preventDefault();
+            }
 // if ZipCode is blank or not 5 digits stop submit and throw errors
-        if (zipCode.value === '' || zipCode.value.length != 5) {
-            errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
-            zipCode.style.borderColor = 'red';
-            $('label[for="zip"]').css('color', 'red');
-            paymentType.after(errorZipCode);
-            event.preventDefault();
-        }
+            if (zipCode.value === '' || zipCode.value.length != 5) {
+                errorZipCode.textContent = 'Please make sure to add in your 5-digit Zip Code.';
+                zipCode.style.borderColor = 'red';
+                $('label[for="zip"]').css('color', 'red');
+                paymentType.after(errorZipCode);
+                event.preventDefault();
+            }
 // if CVV is blank or not 3 digits stop submit and throw errors
-        if (cvvNum.value === '' || cvvNum.value.length != 3) {
-            errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
-            cvvNum.style.borderColor = 'red';
-            $('label[for="cvv"]').css('color', 'red');
-            paymentType.after(errorCvv);
-            event.preventDefault();
+            if (cvvNum.value === '' || cvvNum.value.length != 3) {
+                errorCvv.textContent = 'Please make sure to add in your 3-digit CVV number.';
+                cvvNum.style.borderColor = 'red';
+                $('label[for="cvv"]').css('color', 'red');
+                paymentType.after(errorCvv);
+                event.preventDefault();
+            }
         }
 // if Payment type is not selected stop submit and throw errors
-        if (payment.value === 'select_method') {
+        if (paymentType.value === 'select_method') {
             errorPayment.textContent = 'Please make sure to select a payment option.';
             paymentType.style.borderColor = 'red';
             paymentType.after(errorPayment);
@@ -250,6 +248,9 @@ button.addEventListener('click', () => {
     $('.errorClass').css('color', 'red');
 })
 
+function hasWhiteSpace(name) {
+  return name.indexOf(' ') >= 0;
+}
 //When name has an error and is now fixed remove errors
 name.addEventListener('keypress', () => {
     if (name.value != '') {
@@ -257,20 +258,34 @@ name.addEventListener('keypress', () => {
         errorName.remove();  
     }
 })
-
-//When email has an error and is now fixed remove errors
+//error to display as soon as something is typed so email isnt complete
 email.addEventListener('keypress', () => {
-    let tempEmail = email.value;
-    if (tempEmail.search('@') === -1 || tempEmail.search('@') === -1 ) {
-        errorEmail.textContent = 'Please make sure that your email is formatted correctly.';
-        email.style.borderColor = 'red';
-        email.after(errorEmail);   
-    } else {
-        email.style.borderColor = '';
-        errorEmail.remove(); 
-    }
+    errorEmail.textContent = 'Please make sure that your email is complete.';
+    email.style.borderColor = 'red';
+    errorEmail.style.color = 'red';
+    email.after(errorEmail);
 })
 
+//ceheck for whether email is validated or not then throw an error or clear the error.
+email.addEventListener('change', () => {
+   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)) {
+    email.style.borderColor = '';
+    errorEmail.remove();  
+    return (true)  
+  } else {
+        errorEmail.textContent = 'Please make sure that your email is formatted correctly.';
+        email.style.borderColor = 'red';
+        email.after(errorEmail);
+        return (false)  
+    }
+})
+//once other role text has a value remove the errors
+otherRole.addEventListener('change', () => {
+    if (otherRole.value != '') {
+    errorOtherRole.remove();
+    otherRole.style.borderColor = '';  
+    }
+})
 //When Design has an error and is now fixed remove errors
 shirtDesign.addEventListener('change', () => {
     if (shirtDesign.value != '') {
@@ -345,7 +360,7 @@ paymentType.addEventListener('change', () => {
 })
 //When ccNum is not correct throw error and if it is correct remove errors.
 ccNum.addEventListener('change', () => {
-    if (ccNum.value.length >= 13 && ccNum.value.length <= 16) {
+    if (ccNum.value.length >= 13 && ccNum.value.length <= 16 && isNaN(ccNum.value) == false) {
         ccNum.style.borderColor = '';
         $('label[for="cc-num"]').css('color', '');
         errorCreditCard.remove();
@@ -358,7 +373,7 @@ ccNum.addEventListener('change', () => {
 })
 //When zipcode is not correct throw error and if it is correct remove errors.
 zipCode.addEventListener('change', () => {
-    if (zipCode.value.length == 5) {
+    if (zipCode.value.length == 5 && isNaN(zipCode.value) == false) {
         zipCode.style.borderColor = '';
         $('label[for="zip"]').css('color', '');
         errorZipCode.remove();
@@ -371,7 +386,7 @@ zipCode.addEventListener('change', () => {
 })
 //When CVV is not correct throw error and if it is correct remove errors.
 cvvNum.addEventListener('change', () => {
-    if (cvvNum.value.length == 3) {
+    if (cvvNum.value.length == 3 && isNaN(cvvNum.value) == false) {
         cvvNum.style.borderColor = '';
         $('label[for="cvv"]').css('color', '');
         errorCvv.remove();

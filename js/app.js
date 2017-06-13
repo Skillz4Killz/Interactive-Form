@@ -95,7 +95,6 @@ function mainActivity () {
         }
     })
 }
-
 //if any other conference is checked add 100 or remove 100 if unchecked.
 function activities (x) {
     x.addEventListener('change', () => {
